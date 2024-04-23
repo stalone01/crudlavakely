@@ -11,12 +11,16 @@ class UserRegiterNotification extends Notification
 {
     use Queueable;
 
+    public $post;
+    public $user;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($user, $post)
     {
-        //
+        $this->user=$user;
+        $this->post=$post;
     }
 
     /**
@@ -35,7 +39,7 @@ class UserRegiterNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
+                    ->line('Notification pour l\'utilisateur '.$notifiable->name . ' pour le post '. $this->post['title'])
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
     }

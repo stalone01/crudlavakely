@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\UserRegiterNotification;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -43,6 +44,10 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        $post = ['titre'=>'Super titre'];
+
+        $user->notify(new UserRegiterNotification($post,$user));
 
         Auth::login($user);
 
