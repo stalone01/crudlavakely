@@ -17,11 +17,12 @@ class TestController extends Controller
     }
     public function foo(User $user){
 
-        if (!Gate::allows('access-admin')) {
-            abort(403);
-        }
+        // if (!Gate::allows('access-admin')) {
+        //     abort(403);
+        // }
+        $user = User::all();
 
-        return view('test.foo');
+        return view('test.foo',compact('user'));
     }
     public function bar(){
 
