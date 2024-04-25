@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EtudiantCreatedEvent;
 use App\Models\Etudiant;
 use Illuminate\Http\Request;
 
@@ -18,6 +19,7 @@ class EtudiantController extends Controller
 
         return view('etudiant.ajouter');
     }
+
     public function ajouter_etudiant_traitement(Request $request){
 
         $request->validate([
@@ -25,12 +27,19 @@ class EtudiantController extends Controller
             'prenom'=> 'required|min:3|max:50',
             'classe'=> 'required'
         ]);
+        $etudiant = Etudiant::create([
+            'nom'=>$request->nom,
+            'prenom'=>$request->prenom,
+            'classe'=>$request->classe
+        ]);
 
-        $etudiant = new Etudiant();
-        $etudiant->nom= $request->nom;
-        $etudiant->prenom= $request->prenom;
-        $etudiant->classe=$request->classe;
-        $etudiant->save();
+        event(new EtudiantCreatedEvent($etudiant));
+
+        // $etudiant = new Etudiant();
+        // $etudiant->nom= $request->nom;
+        // $etudiant->prenom= $request->prenom;
+        // $etudiant->classe=$request->classe;
+        // $etudiant->save();
 
         return redirect('/ajouter')->with('status',"l'etudiant a bien été ajouter avec succés!!!");
     }
