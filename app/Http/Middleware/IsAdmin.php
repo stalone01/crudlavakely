@@ -15,6 +15,17 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+
+        //verifier si l'user est admin
+        if ($request->user()->admin)
+        {
+            //Si oui, on continue la requete
+            // dd($request->user()->admin);
+
+            return $next($request);
+        }else{
+            //si non, reqquette 403
+            abort(403);
+        }
     }
 }
