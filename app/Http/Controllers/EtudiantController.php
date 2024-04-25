@@ -32,7 +32,7 @@ class EtudiantController extends Controller
         $etudiant->classe=$request->classe;
         $etudiant->save();
 
-        return redirect('/ajouter')->with('status',"l'etudiant a bien été ajouter avec succés!!!"); 
+        return redirect('/ajouter')->with('status',"l'etudiant a bien été ajouter avec succés!!!");
     }
 
     public function update_etudiant($id){
@@ -43,20 +43,20 @@ class EtudiantController extends Controller
     }
 
     public function update_etudiant_traitement(Request $request){
-        
+
         $request->validate([
             'nom'=>'required|min:3|max:50',
             'prenom'=> 'required|min:3|max:50',
             'classe'=> 'required'
         ]);
 
-        $etudiant =Etudiant::find($request->id); 
+        $etudiant =Etudiant::find($request->id);
         $etudiant->nom= $request->nom;
         $etudiant->prenom= $request->prenom;
         $etudiant->classe=$request->classe;
         $etudiant->update();
 
-        return redirect('/etudiant')->with('status',"l'etudiant a bien été mis en jours avec succés!!!"); 
+        return redirect('/etudiant')->with('status',"l'etudiant a bien été mis en jours avec succés!!!");
     }
 
     public function delete_etudiant($id){
@@ -65,5 +65,29 @@ class EtudiantController extends Controller
         $etudiant->delete();
 
         return redirect('/etudiant')->with('status',"l'etudiant a bien été supprimer avec succés!!!");
+    }
+
+    public function historique(){
+        $etudiants = Etudiant::onlyTrashed()
+                // ->where('id', $id)
+                ->get();
+        // dd($etudiants);
+        return view('etudiant.historique', compact('etudiants'));
+    }
+
+    public function restore($id){
+        $etudiants= Etudiant::onlyTrashed()
+        ->where('id', $id)
+        ->restore();
+
+        return redirect('/historique')->with('status', "restoration avec success");
+    }
+
+    public function formatage($id) {
+        $etudiants= Etudiant::onlyTrashed()
+        ->where('id', $id)
+        ->forceDelete();
+
+        return redirect('/historique')->with('status', "supression avec success");
     }
 }
