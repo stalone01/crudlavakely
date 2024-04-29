@@ -26,15 +26,17 @@ Route::get('/formater/{id}', [EtudiantController::class, 'formatage']); //suppri
 Route::get('/ajouter', [EtudiantController::class, 'ajouter_etudiant']); //affiche la page d'ajout à la bdd
 Route::post('/ajouter/traitement', [EtudiantController::class, 'ajouter_etudiant_traitement']); //ajout à la bdd
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function ()
+    {
+        return view('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware('auth')->group(function ()
+    {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-});
+    });
 
 require __DIR__.'/auth.php';

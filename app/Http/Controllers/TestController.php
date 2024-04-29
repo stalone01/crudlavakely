@@ -30,7 +30,7 @@ class TestController extends Controller
 
         // Mail::to($user['email'])->send(new TestMail($user));
 
-        Mail::to('test@gmail.com')->send(new TestMarrkDown());
+        // Mail::to('test@gmail.com')->send(new TestMarrkDown());
         return view('test.bar');
     }
 }
