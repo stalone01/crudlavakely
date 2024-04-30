@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\RegisterUserMail;
 use App\Models\User;
 use App\Notifications\UserRegiterNotification;
 use App\Providers\RouteServiceProvider;
@@ -11,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -48,6 +50,8 @@ class RegisteredUserController extends Controller
         $post = ['titre'=>'Super titre'];
 
         $user->notify(new UserRegiterNotification($post,$user));
+
+        Mail::to($user->email)->send(new RegisterUserMail());
 
         Auth::login($user);
 
