@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 use App\Services\StripeService;
 
@@ -9,16 +10,15 @@ class PaymentController extends Controller
 {
     public $stripeService;
 
-    public function __construct(StripeService $stripeService)
-    {
-        $this->stripeService = $stripeService;
-    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index(StripeService $stripeService)
+    public function index(StripeService $stripeService, OrderService $orderService)
     {
-        $this->stripeService->charge(123);
+        // dd($stripeService);
+        $stripeService->charge(123);
+        $orderService->discount();
     }
 
     /**
