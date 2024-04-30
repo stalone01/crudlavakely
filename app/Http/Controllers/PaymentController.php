@@ -3,15 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\StripeService;
 
 class PaymentController extends Controller
 {
+    public $stripeService;
+
+    public function __construct(StripeService $stripeService)
+    {
+        $this->stripeService = $stripeService;
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(StripeService $stripeService)
     {
-        //
+        $this->stripeService->charge(123);
     }
 
     /**
