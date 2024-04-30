@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EtudiantController;
-
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,6 +14,8 @@ Route::middleware('admin')->group(function() {
     Route::get('/foo',[TestController::class, 'foo']);
     Route::get('/bar',[TestController::class, 'bar']);
 });
+
+Route::resource('payment',PaymentController::class);
 
 Route::get('/delete-etudiant/{id}', [EtudiantController::class, 'delete_etudiant']); //suppression
 Route::get('/update-etudiant/{id}', [EtudiantController::class, 'update_etudiant']); //affiche la page de modification
