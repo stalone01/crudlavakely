@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendWelcomeUserMailJob;
 use App\Mail\RegisterUserMail;
 use App\Models\User;
 use App\Notifications\UserRegiterNotification;
@@ -47,11 +48,16 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        $post = ['titre'=>'Super titre'];
+        // $post = ['titre'=>'Super titre'];
 
-        $user->notify(new UserRegiterNotification($post,$user));
+            //notification
+        // $user->notify(new UserRegiterNotification($post,$user));
 
-        Mail::to($user->email)->send(new RegisterUserMail());
+            //envoyer du mail
+        // Mail::to($user->email)->send(new RegisterUserMail());
+
+        //jobs
+        SendWelcomeUserMailJob::dispatch($user);
 
         Auth::login($user);
 
